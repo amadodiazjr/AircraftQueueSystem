@@ -12,6 +12,8 @@ public class AircraftQueue {
     private final Map<BucketType, List<Aircraft>> aircraftBuckets;
     private final List<BucketType> order;
     
+    private Boolean running;
+
     private static class QueueHolder {
         private static final AircraftQueue INSTANCE = new AircraftQueue();
     }
@@ -21,6 +23,8 @@ public class AircraftQueue {
     }
 
     private AircraftQueue() {
+        running = false;
+
         aircraftBuckets = new HashMap<>();
         aircraftBuckets.put(BucketType.CARGO_AND_SMALL, new ArrayList<>());
         aircraftBuckets.put(BucketType.CARGO_AND_LARGE, new ArrayList<>());
@@ -33,6 +37,18 @@ public class AircraftQueue {
             BucketType.CARGO_AND_LARGE,
             BucketType.CARGO_AND_SMALL
         );
+    }
+
+    public void start() {
+        running = true;
+    }
+
+    public void stop() {
+        running = false;
+    }
+    
+    public Boolean isRunning() {
+        return running;
     }
 
     public void enqueue(final Aircraft aircraft) {

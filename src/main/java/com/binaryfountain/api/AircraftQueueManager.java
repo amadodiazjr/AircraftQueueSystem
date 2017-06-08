@@ -1,7 +1,7 @@
 package com.binaryfountain.api;
 
 public class AircraftQueueManager {
-    
+
     private static class ManagerHolder {
         private static final AircraftQueueManager INSTANCE = new AircraftQueueManager();
     }
@@ -10,7 +10,9 @@ public class AircraftQueueManager {
         return ManagerHolder.INSTANCE;
     }
 
-    private AircraftQueueManager() {
+    private AircraftQueueManager() { }
 
+    public void aqmRequestProcess(final Request request) {
+        request.process();
     }
 }
