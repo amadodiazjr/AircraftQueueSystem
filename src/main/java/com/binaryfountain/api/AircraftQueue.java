@@ -1,6 +1,7 @@
 package com.binaryfountain.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,12 @@ public class AircraftQueue {
         aircraftBuckets.put(BucketType.PASSENGER_AND_SMALL, new ArrayList<>());
         aircraftBuckets.put(BucketType.PASSENGER_AND_LARGE, new ArrayList<>());
         
-        order = new ArrayList<>();
-        order.add(BucketType.PASSENGER_AND_LARGE);
-        order.add(BucketType.PASSENGER_AND_SMALL);
-        order.add(BucketType.CARGO_AND_LARGE);
-        order.add(BucketType.CARGO_AND_SMALL);
+        order = Arrays.asList(
+            BucketType.PASSENGER_AND_LARGE,
+            BucketType.PASSENGER_AND_SMALL,
+            BucketType.CARGO_AND_LARGE,
+            BucketType.CARGO_AND_SMALL
+        );
     }
 
     public void enqueue(final Aircraft aircraft) {
