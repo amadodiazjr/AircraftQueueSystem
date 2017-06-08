@@ -1,12 +1,14 @@
 package com.binaryfountain.api;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AircraftQueueManager {
-    private Map<UUID, Aircraft> aircrafts;
-    
+    private final List<Aircraft> cargoSmallAircrafts;
+    private final List<Aircraft> cargoLargeAircrafts;
+    private final List<Aircraft> passengerSmallAircrafts;
+    private final List<Aircraft> passengerLargeAircrafts;
+
     private static class ManagerHolder {
         private static final AircraftQueueManager INSTANCE = new AircraftQueueManager();
     }
@@ -16,10 +18,30 @@ public class AircraftQueueManager {
     }
 
     private AircraftQueueManager() {
-    	aircrafts = new HashMap<>();
+        cargoSmallAircrafts = new ArrayList<>();
+        cargoLargeAircrafts = new ArrayList<>();
+        passengerSmallAircrafts = new ArrayList<>();
+        passengerLargeAircrafts = new ArrayList<>();
     }
-    
-    public Map<UUID, Aircraft> getAircrafts() {
-    	return aircrafts;
+
+    public void enqueue() {
+        
     }
+
+    public List<Aircraft> getCargoSmallAircrafts() {
+        return cargoSmallAircrafts;
+    }
+
+    public List<Aircraft> getCargoLargeAircrafts() {
+        return cargoLargeAircrafts;
+    }
+
+    public List<Aircraft> getPassengerSmallAircrafts() {
+        return passengerSmallAircrafts;
+    }
+
+    public List<Aircraft> getPassengerLargeAircrafts() {
+        return passengerLargeAircrafts;
+    }
+
 }
