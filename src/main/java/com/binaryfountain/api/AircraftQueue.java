@@ -11,12 +11,12 @@ public class AircraftQueue {
     private final Map<BucketType, List<Aircraft>> aircraftBuckets;
     private final List<BucketType> order;
     
-    private static class ManagerHolder {
+    private static class QueueHolder {
         private static final AircraftQueue INSTANCE = new AircraftQueue();
     }
 
     public static AircraftQueue getInstance() {
-        return ManagerHolder.INSTANCE;
+        return QueueHolder.INSTANCE;
     }
 
     private AircraftQueue() {
