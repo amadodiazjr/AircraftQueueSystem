@@ -22,17 +22,17 @@ public class AircraftQueueManagerTest {
 
     @Before
     public void doThisBeforeEachTest() {
-        AircraftQueueManager.getInstance().aqmRequestProcess(new StopRequest());
+        AircraftQueue.getInstance().stop();
         AircraftQueue.getInstance().clear();
     }
 
 	@Test
-	public void getInstanceShallReturnInstance() {
+	public void constructorShallCreateInstance() {
 		// ~given
 		AircraftQueueManager manager = null;
 		
 		// ~when
-		manager = AircraftQueueManager.getInstance();
+		manager = new AircraftQueueManager();
 
 		// ~then
 		assertThat(manager, notNullValue());
@@ -46,7 +46,7 @@ public class AircraftQueueManagerTest {
 	    assertThat(queue.isRunning(), equalTo(false));
 	    
 	    // ~when
-	    AircraftQueueManager.getInstance().aqmRequestProcess(new StartRequest());
+	    new AircraftQueueManager().aqmRequestProcess(new StartRequest());
 	    
 	    // ~then
 	    assertThat(queue.isRunning(), equalTo(true));
@@ -54,14 +54,15 @@ public class AircraftQueueManagerTest {
 	
     @Test
     public void stopRequestShallStopTheSystem() {
-        final AircraftQueue queue = AircraftQueue.getInstance();        
-        AircraftQueueManager.getInstance().aqmRequestProcess(new StartRequest());
+        final AircraftQueue queue = AircraftQueue.getInstance();
+        final AircraftQueueManager manager = new AircraftQueueManager();
+        manager.aqmRequestProcess(new StartRequest());
 
         // ~given
         assertThat(queue.isRunning(), equalTo(true));
 
         // ~when
-        AircraftQueueManager.getInstance().aqmRequestProcess(new StopRequest());
+        manager.aqmRequestProcess(new StopRequest());
         
         // ~then
         assertThat(queue.isRunning(), equalTo(false));
@@ -75,9 +76,9 @@ public class AircraftQueueManagerTest {
 
         // ~given
         final EnqueueRequest request = new EnqueueRequest(new Aircraft(properties));
-        
+
         // ~when
-        AircraftQueueManager.getInstance().aqmRequestProcess(request);
+        new AircraftQueueManager().aqmRequestProcess(request);
         
         // ~then
         // exception is thrown
@@ -85,19 +86,18 @@ public class AircraftQueueManagerTest {
 
     @Test
     public void enqueueRequestShallEnqueueToQueueWhenSystemIsRunning() {
+        final AircraftQueueManager manager = new AircraftQueueManager();
         final AircraftQueue queue = AircraftQueue.getInstance();
         final AircraftProperties properties = new AircraftProperties();
         properties.setType(AircraftType.CARGO);
         properties.setSize(AircraftSize.LARGE);
 
         // ~given
-        AircraftQueueManager.getInstance().aqmRequestProcess(new StartRequest());
+        manager.aqmRequestProcess(new StartRequest());
         assertThat(queue.isEmpty(), equalTo(true));
         
         // ~when
-        AircraftQueueManager.getInstance().aqmRequestProcess(
-            new EnqueueRequest(new Aircraft(properties))
-        );
+        manager.aqmRequestProcess(new EnqueueRequest(new Aircraft(properties)));
 
         // ~then
         assertThat(queue.isEmpty(), equalTo(false));
@@ -109,7 +109,7 @@ public class AircraftQueueManagerTest {
         final DequeueRequest request = new DequeueRequest();
         
         // ~when
-        AircraftQueueManager.getInstance().aqmRequestProcess(request);
+        new AircraftQueueManager().aqmRequestProcess(request);
         
         // ~then
         // exception is thrown        
@@ -122,7 +122,7 @@ public class AircraftQueueManagerTest {
         properties.setSize(AircraftSize.LARGE);
 
         final AircraftQueue queue = AircraftQueue.getInstance();
-        final AircraftQueueManager manager = AircraftQueueManager.getInstance(); 
+        final AircraftQueueManager manager = new AircraftQueueManager(); 
         manager.aqmRequestProcess(new StartRequest());
         manager.aqmRequestProcess(new EnqueueRequest(new Aircraft(properties)));
 
@@ -130,7 +130,7 @@ public class AircraftQueueManagerTest {
         assertThat(queue.isEmpty(), equalTo(false));
 
         // ~when
-        AircraftQueueManager.getInstance().aqmRequestProcess(new DequeueRequest());
+        manager.aqmRequestProcess(new DequeueRequest());
         
         // ~then
         assertThat(queue.isEmpty(), equalTo(true));
