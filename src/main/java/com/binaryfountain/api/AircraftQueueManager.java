@@ -27,10 +27,10 @@ public class AircraftQueueManager {
         aircraftBuckets.put(BucketType.PASSENGER_AND_LARGE, new ArrayList<>());
         
         order = new ArrayList<>();
-        order.add(BucketType.CARGO_AND_SMALL);
-        order.add(BucketType.CARGO_AND_LARGE);
-        order.add(BucketType.PASSENGER_AND_SMALL);
         order.add(BucketType.PASSENGER_AND_LARGE);
+        order.add(BucketType.PASSENGER_AND_SMALL);
+        order.add(BucketType.CARGO_AND_LARGE);
+        order.add(BucketType.CARGO_AND_SMALL);
     }
 
     public void enqueue(final Aircraft aircraft) {
@@ -65,6 +65,16 @@ public class AircraftQueueManager {
         }
 
         return true;
+    }
+
+    public Integer getSize() {
+        Integer size = 0;
+
+        for (final BucketType o : order) {
+            size = size + aircraftBuckets.get(o).size();
+        }
+        
+        return size;
     }
 
     public void clear() {
