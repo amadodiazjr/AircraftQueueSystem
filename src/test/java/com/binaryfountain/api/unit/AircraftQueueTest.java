@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.binaryfountain.api.Aircraft;
+import com.binaryfountain.api.AircraftProperties;
 import com.binaryfountain.api.AircraftQueue;
 import com.binaryfountain.api.AircraftSize;
 import com.binaryfountain.api.AircraftType;
@@ -86,12 +87,15 @@ public class AircraftQueueTest {
     @Test
     public void enqueueShallAddToCargoAndSmallAircraftsWhenAircraftIsCargoAndSmall() {
         final List<Aircraft> aircrafts = AircraftQueue.getInstance().getCargoSmallAircrafts();
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.CARGO);
+        properties.setSize(AircraftSize.SMALL);
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.CARGO, AircraftSize.SMALL));
+        AircraftQueue.getInstance().enqueue(new Aircraft(properties));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -100,12 +104,15 @@ public class AircraftQueueTest {
     @Test
     public void enqueueShallAddToCargoAndLargeAircraftsWhenAircraftIsCargoAndLarge() {
         final List<Aircraft> aircrafts = AircraftQueue.getInstance().getCargoLargeAircrafts();
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.CARGO);
+        properties.setSize(AircraftSize.LARGE);
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.CARGO, AircraftSize.LARGE));
+        AircraftQueue.getInstance().enqueue(new Aircraft(properties));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -113,12 +120,15 @@ public class AircraftQueueTest {
     @Test
     public void enqueueShallAddToPassengerAndSmallAircraftsWhenAircraftIsPassengerAndSmall() {
         final List<Aircraft> aircrafts = AircraftQueue.getInstance().getPassengerSmallAircrafts();
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.PASSENGER);
+        properties.setSize(AircraftSize.SMALL);
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.PASSENGER, AircraftSize.SMALL));
+        AircraftQueue.getInstance().enqueue(new Aircraft(properties));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -127,12 +137,15 @@ public class AircraftQueueTest {
     @Test
     public void enqueueShallAddToPassengerAndLargeAircraftsWhenAircraftIsPassengerAndLarge() {
         final List<Aircraft> aircrafts = AircraftQueue.getInstance().getPassengerLargeAircrafts();
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.PASSENGER);
+        properties.setSize(AircraftSize.LARGE);
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.PASSENGER, AircraftSize.LARGE));
+        AircraftQueue.getInstance().enqueue(new Aircraft(properties));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -155,16 +168,16 @@ public class AircraftQueueTest {
     @Test
     public void finalTest() { // purposely vague test description (skipping to end for expediency).
         // This is all just set up.  Skip to ~given
-        final Aircraft aircraft0 = new Aircraft(AircraftType.PASSENGER, AircraftSize.LARGE);
-        final Aircraft aircraft1 = new Aircraft(AircraftType.CARGO, AircraftSize.LARGE);
-        final Aircraft aircraft2 = new Aircraft(AircraftType.PASSENGER, AircraftSize.SMALL);
-        final Aircraft aircraft3 = new Aircraft(AircraftType.CARGO, AircraftSize.LARGE);
-        final Aircraft aircraft4 = new Aircraft(AircraftType.PASSENGER, AircraftSize.LARGE);
-        final Aircraft aircraft5 = new Aircraft(AircraftType.CARGO, AircraftSize.SMALL);
-        final Aircraft aircraft6 = new Aircraft(AircraftType.PASSENGER, AircraftSize.SMALL);
-        final Aircraft aircraft7 = new Aircraft(AircraftType.PASSENGER, AircraftSize.LARGE);
-        final Aircraft aircraft8 = new Aircraft(AircraftType.CARGO, AircraftSize.LARGE);
-        final Aircraft aircraft9 = new Aircraft(AircraftType.CARGO, AircraftSize.LARGE);
+        final Aircraft aircraft0 = new Aircraft(new AircraftProperties().setType(AircraftType.PASSENGER).setSize(AircraftSize.LARGE));
+        final Aircraft aircraft1 = new Aircraft(new AircraftProperties().setType(AircraftType.CARGO).setSize(AircraftSize.LARGE));
+        final Aircraft aircraft2 = new Aircraft(new AircraftProperties().setType(AircraftType.PASSENGER).setSize(AircraftSize.SMALL));
+        final Aircraft aircraft3 = new Aircraft(new AircraftProperties().setType(AircraftType.CARGO).setSize(AircraftSize.LARGE));
+        final Aircraft aircraft4 = new Aircraft(new AircraftProperties().setType(AircraftType.PASSENGER).setSize(AircraftSize.LARGE));
+        final Aircraft aircraft5 = new Aircraft(new AircraftProperties().setType(AircraftType.CARGO).setSize(AircraftSize.SMALL));
+        final Aircraft aircraft6 = new Aircraft(new AircraftProperties().setType(AircraftType.PASSENGER).setSize(AircraftSize.SMALL));
+        final Aircraft aircraft7 = new Aircraft(new AircraftProperties().setType(AircraftType.PASSENGER).setSize(AircraftSize.LARGE));
+        final Aircraft aircraft8 = new Aircraft(new AircraftProperties().setType(AircraftType.CARGO).setSize(AircraftSize.LARGE));
+        final Aircraft aircraft9 = new Aircraft(new AircraftProperties().setType(AircraftType.CARGO).setSize(AircraftSize.LARGE));
 
         // This is the order I expect
         final List<Aircraft> orderedAircrafts = new ArrayList<>();

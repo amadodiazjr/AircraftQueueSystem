@@ -6,18 +6,19 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.binaryfountain.api.Aircraft;
+import com.binaryfountain.api.AircraftProperties;
 import com.binaryfountain.api.AircraftSize;
 import com.binaryfountain.api.AircraftType;
 
 public class AircraftTest {
 
 	@Test(expected=Exception.class)
-	public void constructorShallThrowAnErrorWhenTypeIsNull() {
-		// ~given
-		final AircraftType type = null;
-		
+	public void constructorShallThrowAnErrorWhenTypeIsNull() {	    
+	    // ~given
+        final AircraftProperties properties = null; 
+
 		// ~when
-		new Aircraft(type, AircraftSize.SMALL);
+		new Aircraft(properties);
 		
 		// ~then
 		// exception is thrown
@@ -25,11 +26,14 @@ public class AircraftTest {
 
 	@Test(expected=Exception.class)
 	public void constructorShallThrowAnErrorWhenSizeIsNull() {
-		// ~given
-		final AircraftSize size = null;
-		
+        final AircraftProperties properties = new AircraftProperties();
+
+        // ~given
+	    properties.setSize(null);
+	    properties.setType(AircraftType.CARGO);
+
 		// ~when
-		new Aircraft(AircraftType.CARGO, size);
+		new Aircraft(properties);
 		
 		// ~then
 		// exception is thrown
@@ -37,12 +41,14 @@ public class AircraftTest {
 
 	@Test
 	public void constructorShallCreateAnInstanceWhenTypeAndSizeAreNotNull() {
-		// ~given
-		final AircraftSize size = AircraftSize.SMALL;
-		final AircraftType type = AircraftType.CARGO;
+        final AircraftProperties properties = new AircraftProperties();
+
+        // ~given
+        properties.setSize(AircraftSize.SMALL);
+        properties.setType(AircraftType.CARGO);
 		
 		// ~when
-		final Aircraft aircraft = new Aircraft(type, size);
+		final Aircraft aircraft = new Aircraft(properties);
 		
 		// ~then
 		assertThat(aircraft, notNullValue());

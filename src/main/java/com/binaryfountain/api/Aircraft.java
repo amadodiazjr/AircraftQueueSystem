@@ -6,12 +6,14 @@ public class Aircraft {
 	private final AircraftType type;
 	private final AircraftSize size;
 	
-	public Aircraft(final AircraftType type, final AircraftSize size) {
-		Validate.notNull(type, "type cannot be null.");
-		Validate.notNull(size, "size cannot be null.");
+	public Aircraft(final AircraftProperties properties) {
+		Validate.notNull(properties, "properties cannot be null.");
 
-		this.type = type;
-		this.size = size;
+		type = properties.getType();
+		Validate.notNull(type, "type cannot be null.");
+		
+		size = properties.getSize();
+		Validate.notNull(size, "size cannot be null.");
 	}
 	
 	public AircraftType getType() {

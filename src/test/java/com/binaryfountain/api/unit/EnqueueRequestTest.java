@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.binaryfountain.api.Aircraft;
+import com.binaryfountain.api.AircraftProperties;
 import com.binaryfountain.api.AircraftSize;
 import com.binaryfountain.api.AircraftType;
 import com.binaryfountain.api.EnqueueRequest;
@@ -26,8 +27,12 @@ public class EnqueueRequestTest {
 	
 	@Test
     public void constructorShallCreateInstanceWhenAircraftIsNotNull() {
-        // ~given
-        final Aircraft aircraft = new Aircraft(AircraftType.CARGO, AircraftSize.LARGE);
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.CARGO);
+        properties.setSize(AircraftSize.LARGE);
+
+	    // ~given
+        final Aircraft aircraft = new Aircraft(properties);
         
         // ~when
         final EnqueueRequest request = new EnqueueRequest(aircraft);

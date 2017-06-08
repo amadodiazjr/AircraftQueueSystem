@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.binaryfountain.api.Aircraft;
+import com.binaryfountain.api.AircraftProperties;
 import com.binaryfountain.api.AircraftQueue;
 import com.binaryfountain.api.AircraftQueueManager;
 import com.binaryfountain.api.AircraftSize;
@@ -68,8 +69,12 @@ public class AircraftQueueManagerTest {
     
     @Test(expected=Exception.class)
     public void enqueueRequestShallThrowExceptionIfSystemIsNotRunning() {
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.CARGO);
+        properties.setSize(AircraftSize.LARGE);
+
         // ~given
-        final EnqueueRequest request = new EnqueueRequest(new Aircraft(AircraftType.CARGO, AircraftSize.LARGE));
+        final EnqueueRequest request = new EnqueueRequest(new Aircraft(properties));
         
         // ~when
         AircraftQueueManager.getInstance().aqmRequestProcess(request);
@@ -81,6 +86,9 @@ public class AircraftQueueManagerTest {
     @Test
     public void enqueueRequestShallEnqueueToQueueWhenSystemIsRunning() {
         final AircraftQueue queue = AircraftQueue.getInstance();
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.CARGO);
+        properties.setSize(AircraftSize.LARGE);
 
         // ~given
         AircraftQueueManager.getInstance().aqmRequestProcess(new StartRequest());
@@ -88,9 +96,7 @@ public class AircraftQueueManagerTest {
         
         // ~when
         AircraftQueueManager.getInstance().aqmRequestProcess(
-            new EnqueueRequest(
-                new Aircraft(AircraftType.CARGO, AircraftSize.LARGE)
-            )
+            new EnqueueRequest(new Aircraft(properties))
         );
 
         // ~then
@@ -111,12 +117,14 @@ public class AircraftQueueManagerTest {
 
     @Test
     public void dequeueRequestShallDequeueFromQueueWhenSystemIsRunning() {
+        final AircraftProperties properties = new AircraftProperties();
+        properties.setType(AircraftType.CARGO);
+        properties.setSize(AircraftSize.LARGE);
+
         final AircraftQueue queue = AircraftQueue.getInstance();
         final AircraftQueueManager manager = AircraftQueueManager.getInstance(); 
         manager.aqmRequestProcess(new StartRequest());
-        manager.aqmRequestProcess(new EnqueueRequest(
-            new Aircraft(AircraftType.CARGO, AircraftSize.LARGE)
-        ));
+        manager.aqmRequestProcess(new EnqueueRequest(new Aircraft(properties)));
 
         // ~given
         assertThat(queue.isEmpty(), equalTo(false));
