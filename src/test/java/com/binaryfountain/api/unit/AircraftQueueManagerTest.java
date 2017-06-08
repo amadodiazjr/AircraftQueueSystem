@@ -2,10 +2,12 @@ package com.binaryfountain.api.unit;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.binaryfountain.api.Aircraft;
@@ -15,6 +17,11 @@ import com.binaryfountain.api.AircraftType;
 
 public class AircraftQueueManagerTest {
 
+    @Before
+    public void doThisBeforeEachTest() {
+        AircraftQueueManager.getInstance().clear();
+    }
+    
     @Test
     public void getInstanceShallReturnInstance() {
         // ~given
@@ -128,5 +135,19 @@ public class AircraftQueueManagerTest {
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
+    }
+    
+    @Test
+    public void dequeueShallReturnNullWhenAQueueIsEmpty() {
+        final AircraftQueueManager manager = AircraftQueueManager.getInstance();
+
+        // ~given
+        assertThat(manager.isEmpty(), equalTo(true)); 
+        
+        // ~when
+        final Aircraft aircraft = manager.dequeue(); 
+        
+        // ~then
+        assertThat(aircraft, nullValue());
     }
 }

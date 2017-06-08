@@ -9,6 +9,7 @@ import org.apache.commons.lang3.Validate;
 
 public class AircraftQueueManager {
     private final Map<BucketType, List<Aircraft>> aircraftBuckets;
+    private final List<BucketType> order;
     
     private static class ManagerHolder {
         private static final AircraftQueueManager INSTANCE = new AircraftQueueManager();
@@ -24,6 +25,12 @@ public class AircraftQueueManager {
         aircraftBuckets.put(BucketType.CARGO_AND_LARGE, new ArrayList<>());
         aircraftBuckets.put(BucketType.PASSENGER_AND_SMALL, new ArrayList<>());
         aircraftBuckets.put(BucketType.PASSENGER_AND_LARGE, new ArrayList<>());
+        
+        order = new ArrayList<>();
+        order.add(BucketType.CARGO_AND_SMALL);
+        order.add(BucketType.CARGO_AND_LARGE);
+        order.add(BucketType.PASSENGER_AND_SMALL);
+        order.add(BucketType.PASSENGER_AND_LARGE);
     }
 
     public void enqueue(final Aircraft aircraft) {
@@ -36,6 +43,32 @@ public class AircraftQueueManager {
         Validate.notNull(bucketType, "bucketType cannot be null.");
 
         aircraftBuckets.get(bucketType).add(aircraft);
+    }
+
+    public Aircraft dequeue() {
+        for (final BucketType o : order) {
+            final List<Aircraft> bucket = aircraftBuckets.get(o);
+            if (!bucket.isEmpty()) {
+                return bucket.remove(0);
+            }
+        }
+
+        return null;
+    }
+
+    public Boolean isEmpty() {
+        for (final BucketType o : order) {
+            final List<Aircraft> bucket = aircraftBuckets.get(o);
+            if (!bucket.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void clear() {
+        order.forEach(o -> aircraftBuckets.get(o).clear());
     }
 
     public List<Aircraft> getCargoSmallAircrafts() {
