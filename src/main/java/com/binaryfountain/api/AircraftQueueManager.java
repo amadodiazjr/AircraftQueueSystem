@@ -1,16 +1,15 @@
 package com.binaryfountain.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
 public class AircraftQueueManager {
-    private final List<Aircraft> cargoSmallAircrafts;
-    private final List<Aircraft> cargoLargeAircrafts;
-    private final List<Aircraft> passengerSmallAircrafts;
-    private final List<Aircraft> passengerLargeAircrafts;
-
+    private final Map<BucketType, List<Aircraft>> aircraftBuckets;
+    
     private static class ManagerHolder {
         private static final AircraftQueueManager INSTANCE = new AircraftQueueManager();
     }
@@ -20,10 +19,11 @@ public class AircraftQueueManager {
     }
 
     private AircraftQueueManager() {
-        cargoSmallAircrafts = new ArrayList<>();
-        cargoLargeAircrafts = new ArrayList<>();
-        passengerSmallAircrafts = new ArrayList<>();
-        passengerLargeAircrafts = new ArrayList<>();
+        aircraftBuckets = new HashMap<>();
+        aircraftBuckets.put(BucketType.CARGO_AND_SMALL, new ArrayList<>());
+        aircraftBuckets.put(BucketType.CARGO_AND_LARGE, new ArrayList<>());
+        aircraftBuckets.put(BucketType.PASSENGER_AND_SMALL, new ArrayList<>());
+        aircraftBuckets.put(BucketType.PASSENGER_AND_LARGE, new ArrayList<>());
     }
 
     public void enqueue(final Aircraft aircraft) {
@@ -35,36 +35,22 @@ public class AircraftQueueManager {
         final BucketType bucketType = BucketType.parseType(type, size);
         Validate.notNull(bucketType, "bucketType cannot be null.");
 
-        switch (bucketType) {
-            case CARGO_AND_SMALL:
-                cargoSmallAircrafts.add(aircraft);
-                break;
-            case CARGO_AND_LARGE:
-                cargoLargeAircrafts.add(aircraft);
-                break;
-            case PASSENGER_AND_SMALL:
-                passengerSmallAircrafts.add(aircraft);
-                break;
-            case PASSENGER_AND_LARGE:
-                passengerLargeAircrafts.add(aircraft);
-                break;
-        }
+        aircraftBuckets.get(bucketType).add(aircraft);
     }
 
     public List<Aircraft> getCargoSmallAircrafts() {
-        return cargoSmallAircrafts;
+        return aircraftBuckets.get(BucketType.CARGO_AND_SMALL);
     }
 
     public List<Aircraft> getCargoLargeAircrafts() {
-        return cargoLargeAircrafts;
+        return aircraftBuckets.get(BucketType.CARGO_AND_LARGE);
     }
 
     public List<Aircraft> getPassengerSmallAircrafts() {
-        return passengerSmallAircrafts;
+        return aircraftBuckets.get(BucketType.PASSENGER_AND_SMALL);
     }
 
     public List<Aircraft> getPassengerLargeAircrafts() {
-        return passengerLargeAircrafts;
+        return aircraftBuckets.get(BucketType.PASSENGER_AND_LARGE);
     }
-
 }

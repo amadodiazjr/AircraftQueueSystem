@@ -9,21 +9,19 @@ public enum BucketType {
     public static BucketType parseType(final AircraftType type, final AircraftSize size) {
         switch(type) {
             case CARGO:
-                if (size.equals(AircraftSize.SMALL)) {
-                    return CARGO_AND_SMALL;
-                }
-    
-                if (size.equals(AircraftSize.LARGE)) {
-                    return CARGO_AND_LARGE;
+                switch (size) {
+                    case SMALL:
+                        return CARGO_AND_SMALL;
+                    case LARGE:
+                        return CARGO_AND_LARGE;
                 }
                 break;
             case PASSENGER:
-                if (size.equals(AircraftSize.SMALL)) {
-                    return PASSENGER_AND_SMALL;
-                }
-    
-                if (size.equals(AircraftSize.LARGE)) {
-                    return PASSENGER_AND_LARGE;
+                switch (size) {
+                    case SMALL:
+                        return PASSENGER_AND_SMALL;
+                    case LARGE:
+                        return PASSENGER_AND_LARGE;
                 }
                 break;
         }
