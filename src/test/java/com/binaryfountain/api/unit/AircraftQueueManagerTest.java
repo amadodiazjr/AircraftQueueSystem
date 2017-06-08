@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.binaryfountain.api.Aircraft;
-import com.binaryfountain.api.AircraftQueueManager;
+import com.binaryfountain.api.AircraftQueue;
 import com.binaryfountain.api.AircraftSize;
 import com.binaryfountain.api.AircraftType;
 
@@ -20,16 +20,16 @@ public class AircraftQueueManagerTest {
 
     @Before
     public void doThisBeforeEachTest() {
-        AircraftQueueManager.getInstance().clear();
+        AircraftQueue.getInstance().clear();
     }
     
     @Test
     public void getInstanceShallReturnInstance() {
         // ~given
-        AircraftQueueManager manager = null;
+        AircraftQueue manager = null;
 
         // ~when
-        manager = AircraftQueueManager.getInstance();
+        manager = AircraftQueue.getInstance();
 
         // ~then
         assertThat(manager, notNullValue());
@@ -41,7 +41,7 @@ public class AircraftQueueManagerTest {
         List<Aircraft> aircrafts = null;
 
         // ~when
-        aircrafts = AircraftQueueManager.getInstance().getCargoSmallAircrafts();
+        aircrafts = AircraftQueue.getInstance().getCargoSmallAircrafts();
 
         // ~then
         assertThat(aircrafts, notNullValue());
@@ -53,7 +53,7 @@ public class AircraftQueueManagerTest {
         List<Aircraft> aircrafts = null;
 
         // ~when
-        aircrafts = AircraftQueueManager.getInstance().getCargoLargeAircrafts();
+        aircrafts = AircraftQueue.getInstance().getCargoLargeAircrafts();
 
         // ~then
         assertThat(aircrafts, notNullValue());
@@ -65,7 +65,7 @@ public class AircraftQueueManagerTest {
         List<Aircraft> aircrafts = null;
 
         // ~when
-        aircrafts = AircraftQueueManager.getInstance().getPassengerSmallAircrafts();
+        aircrafts = AircraftQueue.getInstance().getPassengerSmallAircrafts();
 
         // ~then
         assertThat(aircrafts, notNullValue());
@@ -77,7 +77,7 @@ public class AircraftQueueManagerTest {
         List<Aircraft> aircrafts = null;
 
         // ~when
-        aircrafts = AircraftQueueManager.getInstance().getCargoLargeAircrafts();
+        aircrafts = AircraftQueue.getInstance().getCargoLargeAircrafts();
 
         // ~then
         assertThat(aircrafts, notNullValue());
@@ -85,13 +85,13 @@ public class AircraftQueueManagerTest {
     
     @Test
     public void enqueueShallAddToCargoAndSmallAircraftsWhenAircraftIsCargoAndSmall() {
-        final List<Aircraft> aircrafts = AircraftQueueManager.getInstance().getCargoSmallAircrafts();
+        final List<Aircraft> aircrafts = AircraftQueue.getInstance().getCargoSmallAircrafts();
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueueManager.getInstance().enqueue(new Aircraft(AircraftType.CARGO, AircraftSize.SMALL));
+        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.CARGO, AircraftSize.SMALL));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -99,26 +99,26 @@ public class AircraftQueueManagerTest {
 
     @Test
     public void enqueueShallAddToCargoAndLargeAircraftsWhenAircraftIsCargoAndLarge() {
-        final List<Aircraft> aircrafts = AircraftQueueManager.getInstance().getCargoLargeAircrafts();
+        final List<Aircraft> aircrafts = AircraftQueue.getInstance().getCargoLargeAircrafts();
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueueManager.getInstance().enqueue(new Aircraft(AircraftType.CARGO, AircraftSize.LARGE));
+        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.CARGO, AircraftSize.LARGE));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
     }
     @Test
     public void enqueueShallAddToPassengerAndSmallAircraftsWhenAircraftIsPassengerAndSmall() {
-        final List<Aircraft> aircrafts = AircraftQueueManager.getInstance().getPassengerSmallAircrafts();
+        final List<Aircraft> aircrafts = AircraftQueue.getInstance().getPassengerSmallAircrafts();
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueueManager.getInstance().enqueue(new Aircraft(AircraftType.PASSENGER, AircraftSize.SMALL));
+        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.PASSENGER, AircraftSize.SMALL));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -126,13 +126,13 @@ public class AircraftQueueManagerTest {
 
     @Test
     public void enqueueShallAddToPassengerAndLargeAircraftsWhenAircraftIsPassengerAndLarge() {
-        final List<Aircraft> aircrafts = AircraftQueueManager.getInstance().getPassengerLargeAircrafts();
+        final List<Aircraft> aircrafts = AircraftQueue.getInstance().getPassengerLargeAircrafts();
 
         // ~given
         assertThat(aircrafts.isEmpty(), equalTo(true));
 
         // ~when
-        AircraftQueueManager.getInstance().enqueue(new Aircraft(AircraftType.PASSENGER, AircraftSize.LARGE));
+        AircraftQueue.getInstance().enqueue(new Aircraft(AircraftType.PASSENGER, AircraftSize.LARGE));
 
         // ~then
         assertThat(aircrafts.isEmpty(), equalTo(false));
@@ -140,7 +140,7 @@ public class AircraftQueueManagerTest {
     
     @Test
     public void dequeueShallReturnNullWhenAQueueIsEmpty() {
-        final AircraftQueueManager manager = AircraftQueueManager.getInstance();
+        final AircraftQueue manager = AircraftQueue.getInstance();
 
         // ~given
         assertThat(manager.isEmpty(), equalTo(true)); 
@@ -193,7 +193,7 @@ public class AircraftQueueManagerTest {
 
         assertThat(orderedAircrafts.size(), equalTo(aircrafts.size()));
 
-        final AircraftQueueManager manager = AircraftQueueManager.getInstance();
+        final AircraftQueue manager = AircraftQueue.getInstance();
         final List<Aircraft> dequedAircrafts = new ArrayList<>();
 
         // ~given

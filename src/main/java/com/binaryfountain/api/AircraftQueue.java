@@ -7,19 +7,19 @@ import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
-public class AircraftQueueManager {
+public class AircraftQueue {
     private final Map<BucketType, List<Aircraft>> aircraftBuckets;
     private final List<BucketType> order;
     
     private static class ManagerHolder {
-        private static final AircraftQueueManager INSTANCE = new AircraftQueueManager();
+        private static final AircraftQueue INSTANCE = new AircraftQueue();
     }
 
-    public static AircraftQueueManager getInstance() {
+    public static AircraftQueue getInstance() {
         return ManagerHolder.INSTANCE;
     }
 
-    private AircraftQueueManager() {
+    private AircraftQueue() {
         aircraftBuckets = new HashMap<>();
         aircraftBuckets.put(BucketType.CARGO_AND_SMALL, new ArrayList<>());
         aircraftBuckets.put(BucketType.CARGO_AND_LARGE, new ArrayList<>());
